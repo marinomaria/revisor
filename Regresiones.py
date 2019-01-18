@@ -41,5 +41,9 @@ Us = np.vstack((UsMX, UsCL, UsCo))
 #                  0     1     2    3    4    5    6       7      8     9    10     11    12  13      14       15       16
 dicc = np.array(['id','Pais','uid','f','qid','tp','ans','es_re','Vre','Vpp','comm','c','omit','tester','timer','fecha'])
 df_N = pd.DataFrame(data = N, columns = dicc)
+# Borro las columnas irrelevantes para el análisis
+del df_N['comm']
+del df_N['omit']
+del df_N['tester']
 
 
