@@ -50,8 +50,8 @@ df_users.set_index('id', inplace = True)
 df_users.index = df_users.index.astype(int, copy = False)
 del df_users['completo']
 del df_users['zero']
-df_users['edad'] = v.crear_edad()
-df_users['genero'] = v.crear_genero()
+df_users['edad'] = v.crear_edad(df_N)
+df_users['genero'] = v.crear_genero(df_N)
 df_users['genero'] = df_users['genero'].map({1: 'fem', 2: 'masc'})
 
 #%%
@@ -66,13 +66,13 @@ deteccion = np.array([])
 #timer = np.array([])
 #%%   
 for repregunta in repreguntas:
-    statements = np.append(statements, v.buscar_statement(repregunta))
-    variacion_agreement = np.append(variacion_agreement, v.crear_variacion_de_agreement(repregunta))
-    treatment = np.append(treatment, v.crear_variable_treatment(repregunta))
-    deteccion = np.append(deteccion, v.crear_deteccion(repregunta))
+    statements = np.append(statements, v.buscar_statement(df_N, repregunta))
+    variacion_agreement = np.append(variacion_agreement, v.crear_variacion_de_agreement(df_N, repregunta))
+    treatment = np.append(treatment, v.crear_variable_treatment(df_N, repregunta))
+    deteccion = np.append(deteccion, v.crear_deteccion(df_N, repregunta))
     
 for repregunta, statement in zip(repreguntas, statements):
-    variacion_confianza = np.append(variacion_confianza, v.crear_variacion_de_confianza(repregunta, statement))
+    variacion_confianza = np.append(variacion_confianza, v.crear_variacion_de_confianza(df_N, repregunta, statement))
     distancia = np.append(distancia, v.crear_distancia(repregunta, statement))
     
 
