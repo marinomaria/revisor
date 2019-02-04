@@ -25,10 +25,13 @@ def crear_deteccion(df, index_repregunta):
     else: return False
     
 def crear_genero(df):
-    return np.array(df.loc[np.where(df['qst_id'] == 29)[0]]['answer'])
+    return np.array(df.loc[np.where(df['qst_id'] == 29)]['answer'])
 
 def crear_edad(df):
-    return np.array(df.loc[np.where(df['qst_id'] == 30)[0]]['answer'])
+    return np.array(df.loc[np.where(df['qst_id'] == 30)]['answer'])
+
+def crear_religiosidad(df):
+    return np.array(df.loc[np.where(df['qst_id'] == 51)]['answer'])
 
 #def crear_timer(df, index_repregunta):
 #    if df.loc[index_repregunta]['timer'] != 0:
