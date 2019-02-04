@@ -53,7 +53,7 @@ del df_users['zero']
 df_users['edad'] = v.crear_edad(df_N)
 df_users['genero'] = v.crear_genero(df_N)
 df_users['genero'] = df_users['genero'].map({1: 'fem', 2: 'masc'})
-
+df_users['religiosidad'] = v.crear_religiosidad(df_N)
 #%%
 repreguntas = np.array(np.where(df_N['es_repr'] == 1))[0] #Array de repreguntas
 
@@ -63,6 +63,7 @@ variacion_agreement = np.array([])
 treatment = np.array([])
 distancia = np.array([])
 deteccion = np.array([])
+religiosidad = np.array([])
 #timer = np.array([])
 #%%   
 for repregunta in repreguntas:
@@ -79,3 +80,4 @@ for repregunta, statement in zip(repreguntas, statements):
 genero = df_users['genero']
 edad = df_users['edad']
 polarizacion = df_users['polarizacion']
+religiosidad = df_users['religiosidad']
