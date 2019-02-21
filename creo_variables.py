@@ -95,3 +95,9 @@ df_repr.index = repreguntas
 df_repr.columns = dicc3
 df_repr['confianza inicial'] = confianza_inicial
 df_repr['agreement inicial'] = agreement_inicial
+
+#%% Guardo el df Repregunta
+
+df_repr.to_pickle('Repreguntas')
+#Cuando lo quiera levantar uso df_repr = pd.read_pickle('Repreguntas')
+
