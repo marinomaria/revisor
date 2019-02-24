@@ -67,6 +67,7 @@ deteccion = np.array([])
 religiosidad = np.array([])
 confianza_inicial = np.array([])
 agreement_inicial = np.array([])
+ed_lvl = np.array([])
 #timer = np.array([])
 #%% For's que iteran sobre repreguntas y statements, llenando las variables para el análisis  
 for repregunta in repreguntas:
@@ -86,6 +87,7 @@ genero = df_users['genero']
 edad = df_users['edad']
 polarizacion = df_users['polarizacion']
 religiosidad = df_users['religiosidad']
+#v.colapsar_educacion(df_N, ed_lvl)
 
 #Creo el DataFrame de repreguntas, donde el index = index de la repregunta
 dicc3 = np.array(['statements', 'manipulada', 'deteccion', 'distancia', 'variacion agreement', 'variacion confianza'])
@@ -98,6 +100,6 @@ df_repr['agreement inicial'] = agreement_inicial
 
 #%% Guardo el df Repregunta
 
-df_repr.to_pickle('Repreguntas')
+#df_repr.to_pickle('Repreguntas')
 #Cuando lo quiera levantar uso df_repr = pd.read_pickle('Repreguntas')
 

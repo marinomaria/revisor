@@ -37,7 +37,19 @@ def crear_confianza_inicial(df, index_statement):
     return df.loc[index_statement]['confianza']
 
 def crear_agreement_inicial(df, index_repregunta):
-    return df.loc[index_repregunta]['answer']
+    return df.loc[index_repregunta]['answer'] 
+
+#def colapsar_educacion(df, storage_variable):
+#    ed_answers_index = np.where(df['qst_id'] == 31)[0]
+#    for i in ed_answers_index:
+#      if df.loc[i]['pais'] == 'Mexico':
+#          if df.loc[i]['answer'] <= 3:
+#            storage_variable = np.append(storage_variable, 'low')
+#          else: storage_variable = np.append(storage_variable, 'high')
+#      else:
+#          if df.loc[i]['answer'] <= 3:
+#             storage_variable = np.append(storage_variable, 'high')
+#          else: storage_variable = np.append(storage_variable, 'low')
 #def crear_timer(df, index_repregunta):
 #    if df.loc[index_repregunta]['timer'] != 0:
 #        return df.loc[index_repregunta]['timer']
