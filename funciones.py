@@ -1,3 +1,4 @@
+#%%
 import numpy as np
 
 def buscar_statement(df, repregunta):
@@ -8,9 +9,12 @@ def crear_variacion_de_confianza(df, index_repregunta, index_statement):
     
 def crear_variacion_de_agreement(df, index_repregunta):
     if df.loc[index_repregunta]['answer_repr'] != -1:
-        return df.loc[index_repregunta]['answer'] - df.loc[index_repregunta]['answer_repr']
-    else: return 0
-    
+        return df.loc[index_repregunta]['answer_repr'] - df.loc[index_repregunta]['answer']
+    else:
+        if df.loc[index_repregunta]['answer'] != df.loc[index_repregunta]['valor_presentado']:
+            return df.loc[index_repregunta]['valor_presentado'] - df.loc[index_repregunta]['answer']
+        else: return 0
+        
 def crear_variable_manipulada(df, index_repregunta):
     if df.loc[index_repregunta]['answer'] != df.loc[index_repregunta]['valor_presentado']:
         return True
