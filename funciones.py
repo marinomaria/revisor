@@ -39,17 +39,30 @@ def crear_confianza_inicial(df, index_statement):
 def crear_agreement_inicial(df, index_repregunta):
     return df.loc[index_repregunta]['answer'] 
 
-def colapsar_educacion(df, storage_variable):
+#colapsar educacion toma el df_N y un array vacía y devuelve una lista con 0s y 1s donde 1 es high y 0 es low
+def colapsar_educacion(df, storage_variable): 
     ed_answers_index = np.where(df['qst_id'] == 31)[0]
     for i in ed_answers_index:
       if df.loc[i]['pais'] == 'Mexico':
-          if df.loc[i]['answer'] <= 3:
-            storage_variable = np.append(storage_variable, 'low')
-          else: storage_variable = np.append(storage_variable, 'high')
+          if df.loc[i]['answer'] <= 4:
+            storage_variable = np.append(storage_variable, 0)
+          else: 
+              if df.loc[i]['answer'] == 5:
+                  storage_variable = np.append(storage_variable, 1)
+              else: 
+                  storage_variable = np.append(storage_variable, 2)
       else:
-          if df.loc[i]['answer'] <= 3:
-             storage_variable = np.append(storage_variable, 'high')
-          else: storage_variable = np.append(storage_variable, 'low')
+          if df.loc[i]['answer'] == 1:
+             storage_variable = np.append(storage_variable, 2)
+          else: 
+              if df.loc[i]['answer'] == 2:
+                  storage_variable = np.append(storage_variable, 1)
+              else:
+                  storage_variable = np.append(storage_variable, 0)
+    
+    return storage_variable
+          
+          
 def crear_timer(df, index_repregunta):
     if df.loc[index_repregunta]['timer'] != 0:
         return df.loc[index_repregunta]['timer']
