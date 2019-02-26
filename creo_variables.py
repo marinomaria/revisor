@@ -88,7 +88,12 @@ genero = df_users['genero']
 edad = df_users['edad']
 polarizacion = df_users['polarizacion']
 religiosidad = df_users['religiosidad']
-v.colapsar_educacion(df_N, ed_lvl)
+ed_lvl = v.colapsar_educacion(df_N, ed_lvl)
+df_users['nivel educativo'] = ed_lvl
+fork = v.crear_fork(df_N)
+df_users['fork'] = fork
+pais = v.crear_pais(df_N)
+df_users['pais'] = pais
 
 #Creo el DataFrame de repreguntas, donde el index = index de la repregunta
 dicc3 = np.array(['statements', 'manipulada', 'deteccion', 'distancia', 'variacion agreement', 'variacion confianza'])
@@ -98,6 +103,7 @@ df_repr.index = repreguntas
 df_repr.columns = dicc3
 df_repr['confianza inicial'] = confianza_inicial
 df_repr['agreement inicial'] = agreement_inicial
+df_repr['timer'] = timer
 
 #%% Guardo el df Repregunta
 

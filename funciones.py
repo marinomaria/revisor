@@ -71,3 +71,15 @@ def crear_timer(df, index_repregunta):
     if df.loc[index_repregunta]['timer'] != 0:
         return df.loc[index_repregunta]['timer']
     else: return None   
+    
+def crear_fork(df):
+    user_fork_Mx = df['fork'][0:25419:41]
+    user_fork_Cl = df['fork'][25420:118200:39]
+    user_fork_Co = df['fork'][118201::41]
+    return np.concatenate((user_fork_Mx, user_fork_Cl, user_fork_Co))
+
+def crear_pais(df):
+    users_Mx = df['pais'][0:25419:41]
+    users_Cl = df['pais'][25420:118200:39]
+    users_Co = df['pais'][118201::41]
+    return np.concatenate((users_Mx, users_Cl, users_Co))
