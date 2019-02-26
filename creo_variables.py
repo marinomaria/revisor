@@ -68,7 +68,7 @@ religiosidad = np.array([])
 confianza_inicial = np.array([])
 agreement_inicial = np.array([])
 ed_lvl = np.array([])
-#timer = np.array([])
+timer = np.array([])
 #%% For's que iteran sobre repreguntas y statements, llenando las variables para el análisis  
 for repregunta in repreguntas:
     statements = np.append(statements, v.buscar_statement(df_N, repregunta))
@@ -76,6 +76,7 @@ for repregunta in repreguntas:
     manipulada = np.append(manipulada, v.crear_variable_manipulada(df_N, repregunta))
     deteccion = np.append(deteccion, v.crear_deteccion(df_N, repregunta))
     agreement_inicial = np.append(agreement_inicial, v.crear_agreement_inicial(df_N, repregunta))
+    timer = np.append(timer, v.crear_timer(df_N, repregunta))
     
 for repregunta, statement in zip(repreguntas, statements):
     variacion_confianza = np.append(variacion_confianza, v.crear_variacion_de_confianza(df_N, repregunta, statement))
@@ -87,7 +88,7 @@ genero = df_users['genero']
 edad = df_users['edad']
 polarizacion = df_users['polarizacion']
 religiosidad = df_users['religiosidad']
-#v.colapsar_educacion(df_N, ed_lvl)
+v.colapsar_educacion(df_N, ed_lvl)
 
 #Creo el DataFrame de repreguntas, donde el index = index de la repregunta
 dicc3 = np.array(['statements', 'manipulada', 'deteccion', 'distancia', 'variacion agreement', 'variacion confianza'])

@@ -70,4 +70,4 @@ def colapsar_educacion(df, storage_variable):
 def crear_timer(df, index_repregunta):
     if df.loc[index_repregunta]['timer'] != 0:
         return df.loc[index_repregunta]['timer']
-    else: return 0   
+    else: return None   
