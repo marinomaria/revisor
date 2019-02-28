@@ -83,3 +83,6 @@ def crear_pais(df):
     users_Cl = df['pais'][25420:118200:39]
     users_Co = df['pais'][118201::41]
     return np.concatenate((users_Mx, users_Cl, users_Co))
+
+def orden():
+    return np.array([1, 2, 3, 4] * 4480)

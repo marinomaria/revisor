@@ -59,6 +59,7 @@ ed_lvl = v.colapsar_educacion(df_N, ed_lvl)
 df_users['nivel educativo'] = ed_lvl
 #%% Inicializo las variables
 repreguntas = np.array(np.where(df_N['es_repr'] == 1))[0] #Array de repreguntas
+orden_repreguntas = v.orden()
 
 statements = np.array([])
 variacion_confianza = np.array([])
@@ -83,8 +84,8 @@ for repregunta, statement in zip(repreguntas, statements):
     distancia = np.append(distancia, v.crear_distancia(repregunta, statement))
     confianza_inicial = np.append(confianza_inicial, v.crear_confianza_inicial(df_N, statement))
 #%% #Creo el DataFrame de repreguntas, donde el index = index de la repregunta
-dicc3 = np.array(['statements', 'manipulada', 'deteccion', 'distancia', 'variacion agreement', 'agreement inicial', 'variacion confianza', 'confianza inicial', 'timer'])
-df_repr = pd.DataFrame(data = [statements, manipulada, deteccion, distancia, variacion_agreement, agreement_inicial, variacion_confianza, confianza_inicial, timer])
+dicc3 = np.array(['statements', 'orden', 'manipulada', 'deteccion', 'distancia', 'variacion agreement', 'agreement inicial', 'variacion confianza', 'confianza inicial', 'timer'])
+df_repr = pd.DataFrame(data = [statements, orden_repreguntas, manipulada, deteccion, distancia, variacion_agreement, agreement_inicial, variacion_confianza, confianza_inicial, timer])
 df_repr = df_repr.T
 df_repr.index = repreguntas
 df_repr.columns = dicc3
