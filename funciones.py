@@ -86,3 +86,15 @@ def crear_pais(df):
 
 def orden():
     return np.array([1, 2, 3, 4] * 4480)
+
+##normalizacion lineal, ubica la media en 50, el segundo argumento debe ser una lista vacia
+def normalizacion_lineal(lista_in,lista_out):
+    mean = np.mean(lista_in)
+    
+    
+    for x in lista_in:
+        if x<mean:
+            lista_out += [x*(50/mean)]
+        else:
+            lista_out += [x*(50/(100-mean))+100*(50-mean)/(100-mean)]
+    return lista_out

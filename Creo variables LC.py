@@ -18,6 +18,7 @@ import matplotlib.pyplot as plt
 from scipy import stats
 import pandas as pd
 import statsmodels.api as sm
+import funciones as v
 
 #%%
 #Levanto los datos y los mergeo
@@ -104,22 +105,26 @@ PrMx=np.array(np.where((df_N['qst_id']==52) & (df_N['pais']=='Mexico'))[0]) ##ar
 for i in PrMx:
     RMx += [df_N.loc[i,'answer']]
 
-#Resto la respuesta al promedio de cada pais (Conservador ahora esta a la derecha)
+#%%
 
-MeansCL=[np.mean(np.array(RCl)),np.mean(np.array(RCo)),np.mean(np.array(RMx))]
-
-Clmean=np.array([MeansCL[0]]*len(RCl))
-LCCl=Clmean-np.array(RCl)
-
-Comean=np.array([MeansCL[1]]*len(RCo))
-LCCo=Comean-np.array(RCo)
-
-Mxmean=np.array([MeansCL[2]]*len(RMx))
-LCMx=Mxmean-np.array(RMx)
+## A partir de aca liberal es 0 y conservador 100:
 
 
+LCCl = 100 - np.array(RCl)
+LCCo = 100 - np.array(RCo)
+LCMx = 100 - np.array(RMx)
 
-#Normalizo y uno
+normalizoCl=[]
+normalizoCo=[]
+normalizoMx=[]
+
+
+v.normalizacion_lineal(LCCl,normalizoCl)
+v.normalizacion_lineal(LCCo,normalizoCo)
+v.normalizacion_lineal(LCMx,normalizoMx)
+
+
+nLC=[normalizoCl,normalizoCo,normalizoMx]
 
 
 
