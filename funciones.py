@@ -43,7 +43,6 @@ def crear_confianza_inicial(df, index_statement):
 def crear_agreement_inicial(df, index_repregunta):
     return df.loc[index_repregunta]['answer'] 
 
-#colapsar educacion toma el df_N y un array vacía y devuelve una lista con 0s y 1s donde 1 es high y 0 es low
 def colapsar_educacion(df, storage_variable): 
     ed_answers_index = np.where(df['qst_id'] == 31)[0]
     for i in ed_answers_index:
@@ -63,9 +62,7 @@ def colapsar_educacion(df, storage_variable):
                   storage_variable = np.append(storage_variable, 1)
               else:
                   storage_variable = np.append(storage_variable, 0)
-    
-    return storage_variable
-          
+    return storage_variable     
           
 def crear_timer(df, index_repregunta):
     if df.loc[index_repregunta]['timer'] != 0:
@@ -90,11 +87,9 @@ def orden():
 ##normalizacion lineal, ubica la media en 50, el segundo argumento debe ser una lista vacia
 def normalizacion_lineal(lista_in,lista_out):
     mean = np.mean(lista_in)
-    
-    
     for x in lista_in:
-        if x<mean:
-            lista_out += [x*(50/mean)]
+        if x < mean:
+            lista_out += [x * (50/mean)]
         else:
-            lista_out += [x*(50/(100-mean))+100*(50-mean)/(100-mean)]
+            lista_out += [x * (50/(100-mean)) + 100 * (50-mean)/(100-mean)]
     return lista_out

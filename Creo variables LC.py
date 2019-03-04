@@ -81,43 +81,36 @@ for repregunta in repreguntas:
     
 for repregunta, statement in zip(repreguntas, statements):
     varC = np.append(varC, crear_variacion_de_confianza(repregunta, statement))
-    
-
-
 
 #%%
-PrCl=np.array(np.where((df_N['qst_id']==52) & (df_N['pais']=='Chile'))[0]) ##array de prguntas CL
 RCl = []
 RCo = []
 RMx = []
 
+PrCl = np.array(np.where((df_N['qst_id']==52) & (df_N['pais']=='Chile'))[0]) ##array de prguntas CL
+
 for i in PrCl:
     RCl += [df_N.loc[i,'answer']]
     
-PrCo=np.array(np.where((df_N['qst_id']==52) & (df_N['pais']=='Colombia'))[0]) ##array de prguntas Co
-
+PrCo = np.array(np.where((df_N['qst_id']==52) & (df_N['pais']=='Colombia'))[0]) ##array de prguntas Co
 
 for i in PrCo:
     RCo += [df_N.loc[i,'answer']]
     
-PrMx=np.array(np.where((df_N['qst_id']==52) & (df_N['pais']=='Mexico'))[0]) ##array de prguntas Mx
+PrMx = np.array(np.where((df_N['qst_id']==52) & (df_N['pais']=='Mexico'))[0]) ##array de prguntas Mx
 
 for i in PrMx:
     RMx += [df_N.loc[i,'answer']]
 
 #%%
-
-## A partir de aca liberal es 0 y conservador 100:
-
-
+# A partir de aca liberal es 0 y conservador 100:
 LCCl = 100 - np.array(RCl)
 LCCo = 100 - np.array(RCo)
 LCMx = 100 - np.array(RMx)
 
-normalizoCl=[]
-normalizoCo=[]
-normalizoMx=[]
-
+normalizoCl = []
+normalizoCo = []
+normalizoMx = []
 
 v.normalizacion_lineal(LCCl,normalizoCl)
 v.normalizacion_lineal(LCCo,normalizoCo)
@@ -125,18 +118,5 @@ v.normalizacion_lineal(LCMx,normalizoMx)
 
 
 nLC=[normalizoCl,normalizoCo,normalizoMx]
-
-
-
-
-
-   
 #%%
-
-
-
-
-#%%
-plt.hist(RCl,bins=range(1,101))
-
-#%%
+#plt.hist(RCl,bins=range(1,101))
