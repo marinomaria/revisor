@@ -84,12 +84,19 @@ def crear_pais(df):
 def orden():
     return np.array([1, 2, 3, 4] * 4480)
 
-##normalizacion lineal, ubica la media en 50, el segundo argumento debe ser una lista vacia
-def normalizacion_lineal(lista_in,lista_out):
-    mean = np.mean(lista_in)
-    for x in lista_in:
-        if x < mean:
-            lista_out += [x * (50/mean)]
-        else:
-            lista_out += [x * (50/(100-mean)) + 100 * (50-mean)/(100-mean)]
-    return lista_out
+def cons_lib(df, pais):
+        index_preguntas = np.array(np.where((df['qst_id'] == 52) & (df['pais'] == pais))[0])
+        respuestas = []
+        for i in index_preguntas:
+            respuestas += [df.loc[i,'answer']]
+            
+        LC = 100 - np.array(respuestas) # A partir de aca liberal es 0 y conservador 100:
+        normalizade = []
+        mean = np.mean(LC)
+        for x in LC:
+            if x < mean:
+                normalizade += [x * (50/mean)]
+            else:
+                normalizade += [x * (50/(100-mean)) + 100 * (50-mean)/(100-mean)]
+        
+        return normalizade

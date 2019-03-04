@@ -53,6 +53,7 @@ df_users['edad'] = v.crear_edad(df_N)
 df_users['religiosidad'] = v.crear_religiosidad(df_N)
 df_users['fork'] = v.crear_fork(df_N)
 df_users['pais'] = v.crear_pais(df_N)
+df_users['conservador/liberal'] = np.concatenate((v.cons_lib(df_N, 'Mexico'), v.cons_lib(df_N, 'Chile'), v.cons_lib(df_N, 'Colombia')))
 #Creo variable nivel educativo
 ed_lvl = np.array([])
 ed_lvl = v.colapsar_educacion(df_N, ed_lvl)
