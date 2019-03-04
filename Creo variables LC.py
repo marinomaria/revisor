@@ -117,6 +117,6 @@ v.normalizacion_lineal(LCCo,normalizoCo)
 v.normalizacion_lineal(LCMx,normalizoMx)
 
 
-nLC=[normalizoCl,normalizoCo,normalizoMx]
+nLC=[normalizoMx,normalizoCl,normalizoCo]
 #%%
 #plt.hist(RCl,bins=range(1,101))
