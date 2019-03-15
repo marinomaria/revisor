@@ -61,6 +61,7 @@ df_users['nivel educativo'] = ed_lvl
 #%% Inicializo las variables
 repreguntas = np.array(np.where(df_N['es_repr'] == 1))[0] #Array de repreguntas
 orden_repreguntas = v.orden()
+user_id = df_N.loc[repreguntas]['user_id']
 
 statements = np.array([])
 variacion_confianza = np.array([])
@@ -90,6 +91,7 @@ df_repr = pd.DataFrame(data = [statements, orden_repreguntas, manipulada, detecc
 df_repr = df_repr.T
 df_repr.index = repreguntas
 df_repr.columns = dicc3
+df_repr.insert(0, 'user id', user_id)
 #%% Guardo el df Repregunta
 
 #df_repr.to_pickle('Repreguntas')
