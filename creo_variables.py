@@ -92,8 +92,9 @@ df_repr = df_repr.T
 df_repr.index = repreguntas
 df_repr.columns = dicc3
 df_repr.insert(0, 'user id', user_id)
+df_repr['timer'].replace({np.nan:None}, inplace = True)
 #%% Guardo el df Repregunta
 
-#df_repr.to_pickle('Repreguntas')
-#df_users.to_pickle('Usuarios')
+df_repr.to_pickle('Repreguntas')
+df_users.to_pickle('Usuarios')
 #Cuando lo quiera levantar uso df_repr = pd.read_pickle('Repreguntas')
