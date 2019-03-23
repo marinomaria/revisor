@@ -5,7 +5,7 @@ def buscar_statement(df, repregunta):
     return np.where((df['qst_id'] == df.loc[repregunta]['qst_id']) & (df['user_id'] == df.loc[repregunta]['user_id']) & (df['es_repr'] == 0))
 
 def crear_variacion_de_confianza(df, index_repregunta, index_statement):
-    return abs(df.loc[index_repregunta]['confianza'] - df.loc[index_statement]['confianza'])
+    return df.loc[index_repregunta]['confianza'] - df.loc[index_statement]['confianza']
     
 def crear_variacion_de_agreement(df, index_repregunta):
     if df.loc[index_repregunta]['answer_repr'] != -1:
