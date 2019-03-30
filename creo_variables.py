@@ -62,6 +62,7 @@ df_users['nivel educativo'] = ed_lvl
 repreguntas = np.array(np.where(df_N['es_repr'] == 1))[0] #Array de repreguntas
 orden_repreguntas = v.orden()
 user_id = df_N.loc[repreguntas]['user_id']
+qst_id = df_N.loc[repreguntas]['qst_id']
 
 statements = np.array([])
 variacion_confianza = np.array([])
@@ -86,12 +87,13 @@ for repregunta, statement in zip(repreguntas, statements):
     distancia = np.append(distancia, v.crear_distancia(repregunta, statement))
     confianza_inicial = np.append(confianza_inicial, v.crear_confianza_inicial(df_N, statement))
 #%% #Creo el DataFrame de repreguntas, donde el index = index de la repregunta
-dicc3 = np.array(['statements', 'orden', 'manipulada', 'deteccion', 'distancia', 'variacion agreement', 'agreement inicial', 'variacion confianza', 'confianza inicial', 'timer'])
+dicc3 = np.array(['statement index', 'orden', 'manipulada', 'deteccion', 'distancia', 'variacion agreement', 'agreement inicial', 'variacion confianza', 'confianza inicial', 'timer'])
 df_repr = pd.DataFrame(data = [statements, orden_repreguntas, manipulada, deteccion, distancia, variacion_agreement, agreement_inicial, variacion_confianza, confianza_inicial, timer])
 df_repr = df_repr.T
 df_repr.index = repreguntas
 df_repr.columns = dicc3
 df_repr.insert(0, 'user id', user_id)
+df_repr.insert(1, 'question id', qst_id)
 df_repr['timer'].replace({np.nan:None}, inplace = True)
 #%% Guardo el df Repregunta
 
