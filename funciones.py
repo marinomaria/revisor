@@ -14,18 +14,34 @@ def crear_variacion_de_agreement(df, index_repregunta):
         if df.loc[index_repregunta]['answer'] != df.loc[index_repregunta]['valor_presentado']:
             return df.loc[index_repregunta]['valor_presentado'] - df.loc[index_repregunta]['answer']
         else: return 0
-        
+
+
 def crear_variable_manipulada(df, index_repregunta):
+    
+    
     if df.loc[index_repregunta]['answer'] != df.loc[index_repregunta]['valor_presentado']:
         return True
-    else: return False
+    
+    
+    else:
+        return False
+    
     
 def crear_distancia(repregunta, statement):
     return repregunta - statement
 
 def crear_deteccion(df, index_repregunta):
-    if df.loc[index_repregunta]['answer_repr'] != -1:
-        return True
+    if df.loc[index_repregunta]['answer'] != df.loc[index_repregunta]['valor_presentado']:
+    
+        if (df.loc[index_repregunta]['answer_repr']==-1):
+            return False
+        elif (df.loc[index_repregunta]['valor_presentado']<=50) and (df.loc[index_repregunta]['answer_repr']>50):
+            return True
+        elif (df.loc[index_repregunta]['valor_presentado']>50) and (df.loc[index_repregunta]['answer_repr']<=50):  
+            return True
+        else:
+            return False    
+    
     else: return False
     
 def crear_genero(df):
