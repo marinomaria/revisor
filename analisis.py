@@ -10,6 +10,11 @@ import pandas as pd
 import funciones as v
 #%%
 df_repr = pd.read_pickle('Repreguntas')
+
+
 #%%
+df_repr['confianza inicial'].describe()
+asd = df_repr.where((df_repr['confianza inicial']  > 79) & (df_repr['confianza inicial'] < 91)).dropna(how = 'all')
 
 
+ 
