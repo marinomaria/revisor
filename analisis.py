@@ -44,9 +44,9 @@ for i in range(10):
     group_md = sub_repr.where((sub_repr['ALi']  >= 10*i) & (sub_repr['ALi'] <= 10*(i+1)) & (sub_repr['manipulada']==1) & (sub_repr['deteccion']==1)).dropna(how = 'all')
     group_mnd = sub_repr.where((sub_repr['ALi']  >= 10*i) & (sub_repr['ALi'] <= 10*(i+1)) & (sub_repr['manipulada']==1) & (sub_repr['deteccion']==0)).dropna(how = 'all')
     
-    vc_nm = np.mean(group_nm['variacion confianza'])
-    vc_md = np.mean(group_md['variacion confianza'])
-    vc_mnd = np.mean(group_mnd['variacion confianza'])
+    vc_nm = group_nm['variacion confianza']
+    vc_md = group_md['variacion confianza']
+    vc_mnd = group_mnd['variacion confianza']
     
     
     print(np.mean(group_md['variacion confianza']),i,'md')
@@ -55,6 +55,9 @@ for i in range(10):
     
     plt.xlabel('ALi')
     plt.ylabel('Variacion confianza promedio')
-    plt.plot(i*10+5,vc_nm,'b.')
-    plt.plot(i*10+5,vc_md,'r.')
-    plt.plot(i*10+5,vc_mnd,'g.')
+    plt.plot(i*10+4,np.mean(vc_nm),'b.')
+    plt.errorbar(i*10+4,np.mean(vc_nm),yerr=np.std(vc_nm)/np.sqrt(len(vc_nm)),color='black')
+    plt.plot(i*10+5,np.mean(vc_md),'r.')
+    plt.errorbar(i*10+5,np.mean(vc_md),yerr=np.std(vc_md)/np.sqrt(len(vc_md)),color='black')
+    plt.plot(i*10+6,np.mean(vc_mnd),'g.')
+    plt.errorbar(i*10+6,np.mean(vc_mnd),yerr=np.std(vc_mnd)/np.sqrt(len(vc_mnd)),color='black')
