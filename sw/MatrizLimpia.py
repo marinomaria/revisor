@@ -2,8 +2,10 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-ww1 = pd.read_excel("ww1.xlsx", index_col=0)
-ww2 = pd.read_excel("ww2.xlsx", index_col=0)
+#%% LIMPIEZA DE MATRIZ
+
+ww1 = pd.read_excel("ww1.xlsx", index_col=0, delimiter = ',')
+ww2 = pd.read_excel("ww2.xlsx", index_col=0, delimiter = ',')
 
 #cambiamos los nombres de los fork por 1 y 2 para ww1 y 3 y 4 para ww2
 ww1['fork'].replace({9:1, 10:2}, inplace = True)
@@ -26,30 +28,25 @@ sw = sw[sw['OmitirDatos?'] == 0]
 sw = sw[sw.EsUsuarioDePrueba == 0]
 sw.drop(['TipoDePregunta', 'OmitirDatos?', 'EsUsuarioDePrueba', 'comentarios', 'Pais', 'timer', 'creado_el'], axis=1, inplace = True)
 
-#%%
+#arreglamos los usuarios con preguntas repetidas (32 en lugar de 24)
 for i in sw.user_id.unique():
-    
-    sw[(sw.user_id == i) & (sw.Es_Repregunta == 0)] = sw[(sw.user_id == i) & (sw.Es_Repregunta == 0)].drop_duplicates('questionId') #Elimino las preguntas duplicadas dejando solo la primera, cuando se eliminan quedan como Na
-    sw[(sw.user_id == i) & (sw.Es_Repregunta == 1)] = sw[(sw.user_id == i) & (sw.Es_Repregunta == 1)].drop_duplicates('questionId') #Idem para las repreguntas
-    sw = sw[~sw.user_id.isna()] #Elimino las filas que habían quedado como Na
-
+    #eliminamos las preguntas duplicadas dejando solo la primera, cuando se eliminan quedan como Na
+    sw[(sw.user_id == i) & (sw.Es_Repregunta == 0)] = sw[(sw.user_id == i) & (sw.Es_Repregunta == 0)].drop_duplicates('questionId')
+    #idem para las repreguntas
+    sw[(sw.user_id == i) & (sw.Es_Repregunta == 1)] = sw[(sw.user_id == i) & (sw.Es_Repregunta == 1)].drop_duplicates('questionId')
+    #eliminamos las filas que habían quedado como Na
+    sw = sw[~sw.user_id.isna()]
+    #eliminamos los usuarios con una cantidad de preguntas distinta de 24
     if sw[sw.user_id == i].shape != (24,8):
         sw = sw[sw.user_id != i]
 
-#%%
-        
-for i in sw.index:   #Pongo el valor de la repregunta en ValorRespondido. Estaba distinto antes para facilitar las cosas, pero con la nueva matriz no hace falta.
-    if sw['ValorRepregunta'][i]!=-1:
-        sw['ValorRespondido'][i] = sw['ValorRepregunta'][i]
-    
-    #Hay que arreglar esto de abajo
-    
-    elif sw['Es_Repregunta'][i]==1:
-        sw['ValorRespondido'][i] = sw['ValorPresentadoPregunta'][i]
-        
-    
-#%%
+#%% PIVOTEO
 
+#cambiamos los valores respondidos para las repreguntas, si cambio la respuesta se cambia por ValorRepregunta, si no la cambio se cambia por ValorPresentadoPregunta 
+sw.ValorRespondido[(sw.ValorRepregunta == -1) & (sw.Es_Repregunta == 1)] = sw.ValorPresentadoPregunta[(sw.ValorRepregunta == -1) & (sw.Es_Repregunta == 1)]
+sw.ValorRespondido[(sw.ValorRepregunta != -1) & (sw.Es_Repregunta == 1)] = sw.ValorRepregunta[(sw.ValorRepregunta != -1) & (sw.Es_Repregunta == 1)]
+
+#creamos las tres columnas para etiquetar las nuevas columnas de la matriz (que se usan para el pivoteo)
 sw['QID'] = 0
 sw['conf']= -1
 sw['Presentado']= -1
@@ -126,28 +123,30 @@ for i in sw.index:
     elif sw['questionId'][i]==30:
         sw['QID'][i]='Qid30'
 
-
-      
-        
-#%%
-
+#pivoteamos por valor respondido
 swValorRespondido=sw.pivot(index='user_id', columns='QID', values='ValorRespondido')
 
+#pivoteamos para guardar el fork
 swfork=sw.pivot(index='user_id', columns='QID', values='fork')
 
+#creamos una matriz con las filas que tienen confianza y una con las que tienen valor presentado (las repreguntas)
 swConfianza=sw[sw.conf != -1]
 swPresentado=swConfianza[swConfianza.Presentado != -1]
 
+#pivoteamos por confianza y por valor presentado
 swConfianza=swConfianza.pivot(index='user_id', columns='conf', values='confianza')
 swPresentado=swPresentado.pivot(index='user_id', columns='Presentado', values='ValorPresentadoPregunta')
 
+#concatenamos las tres matrices pivoteadas
 Sw=pd.concat([swValorRespondido,swConfianza,swPresentado], axis=1)
+#creamos una columna con el fork (usando la matriz pivoteada antes)
 Sw['fork']=swfork['A1']
 
-columnsTitles = ['A1', 'A1conf','B1','B1conf','A2','A2conf','B2','B2conf','RA1','RA1conf','RA1pres','RB1','RB1conf','RB1pres','RA2','RA2conf','RA2pres','RB2','RB2conf','RB2pres','A3', 'A3conf','B3','B3conf','A4','A4conf','B4','B4conf','C1','C1conf','C2','C2conf','C3','C3conf','C4','C4conf','Genero','Educacion','Voto','CVoto','Elec_anterior','Interes','PP_anterior','Qid30']
-
+#reordenamos las columnas segun nuestro criterio
+columnsTitles = ['fork','A1', 'A1conf','B1','B1conf','A2','A2conf','B2','B2conf','RA1','RA1conf','RA1pres','RB1','RB1conf','RB1pres','RA2','RA2conf','RA2pres','RB2','RB2conf','RB2pres','A3', 'A3conf','B3','B3conf','A4','A4conf','B4','B4conf','C1','C1conf','C2','C2conf','C3','C3conf','C4','C4conf','Genero','Educacion','Voto','CVoto','Elec_anterior','Interes','PP_anterior','Qid30']
 Sw = Sw.reindex(columns=columnsTitles)
 
-
+#%% GUAU GUAU GUARDO EN CSV
+Sw.to_csv('SWperrrrrrrrres.csv')
 
        
