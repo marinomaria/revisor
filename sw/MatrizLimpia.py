@@ -19,8 +19,13 @@ ww2.user_id = ww2.user_id + 200000
 frames = [ww1, ww2]
 sw = pd.concat(frames)
 
+#cambiamos los valores respondidos para las repreguntas, si cambio la respuesta se cambia por ValorRepregunta, si no la cambio se cambia por ValorPresentadoPregunta 
+sw.ValorRespondido[(sw.ValorRepregunta == -1) & (sw.Es_Repregunta == 1)] = sw.ValorPresentadoPregunta[(sw.ValorRepregunta == -1) & (sw.Es_Repregunta == 1)]
+sw.ValorRespondido[(sw.ValorRepregunta != -1) & (sw.Es_Repregunta == 1)] = sw.ValorRepregunta[(sw.ValorRepregunta != -1) & (sw.Es_Repregunta == 1)]
+
 #espejamos las preguntas A1 y A3 para que correspondan a 0 derecha, 100 izquierda (si funciona mal hacerlo en dos pasos)
 sw.ValorRespondido[(sw.questionId == 19) | (sw.questionId == 23)] = - sw.ValorRespondido[(sw.questionId == 19) | (sw.questionId == 23)] + 100
+sw.ValorPresentadoPregunta[((sw.questionId == 19) | (sw.questionId == 23)) & sw.Es_Repregunta == 1] = - sw.ValorPresentadoPregunta[((sw.questionId == 19) | (sw.questionId == 23)) & sw.Es_Repregunta == 1] + 100
 
 #filtramos la matriz usando las columnas Pais, OmitirDatos y EsUsuarioDePrueba, luego tiramos las columnas que no nos sirven
 sw = sw[sw.Pais == 'Sweden']
@@ -42,9 +47,6 @@ for i in sw.user_id.unique():
 
 #%% PIVOTEO
 
-#cambiamos los valores respondidos para las repreguntas, si cambio la respuesta se cambia por ValorRepregunta, si no la cambio se cambia por ValorPresentadoPregunta 
-sw.ValorRespondido[(sw.ValorRepregunta == -1) & (sw.Es_Repregunta == 1)] = sw.ValorPresentadoPregunta[(sw.ValorRepregunta == -1) & (sw.Es_Repregunta == 1)]
-sw.ValorRespondido[(sw.ValorRepregunta != -1) & (sw.Es_Repregunta == 1)] = sw.ValorRepregunta[(sw.ValorRepregunta != -1) & (sw.Es_Repregunta == 1)]
 
 #creamos las tres columnas para etiquetar las nuevas columnas de la matriz (que se usan para el pivoteo)
 sw['QID'] = 0
@@ -146,7 +148,5 @@ Sw['fork']=swfork['A1']
 columnsTitles = ['fork','A1', 'A1conf','B1','B1conf','A2','A2conf','B2','B2conf','RA1','RA1conf','RA1pres','RB1','RB1conf','RB1pres','RA2','RA2conf','RA2pres','RB2','RB2conf','RB2pres','A3', 'A3conf','B3','B3conf','A4','A4conf','B4','B4conf','C1','C1conf','C2','C2conf','C3','C3conf','C4','C4conf','Genero','Educacion','Voto','CVoto','Elec_anterior','Interes','PP_anterior','Qid30']
 Sw = Sw.reindex(columns=columnsTitles)
 
-#%% GUAU GUAU GUARDO EN CSV
-Sw.to_csv('SWperrrrrrrrres.csv')
-
-       
+#%% GUARDADO DE LA MARIZ EN CSV
+Sw.to_csv('SWlimpia.csv')
